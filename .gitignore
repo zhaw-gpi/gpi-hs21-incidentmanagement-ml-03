@@ -1,0 +1,37 @@
+*/target/
+*.mv.db
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+/src/main/resources/twitter.properties
+/nbactions.xml
+
+/logs/
+
+### VS Code ###
+/.vscode/
+
+### Credentials & Co. ####
+mail.properties
+mail-template.properties

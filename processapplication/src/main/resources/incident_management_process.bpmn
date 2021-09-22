@@ -1,0 +1,1501 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1cnoelj" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.10.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:collaboration id="Collaboration_Incident_Management">
+    <bpmn:participant id="ProzessportalParticipant" name="Prozessportal" processRef="IncidentManagementProcess" />
+    <bpmn:participant id="ServiceDesk1stLevelParticipant" name="Service Desk (1st Level)" processRef="ServiceDeskProcess" />
+    <bpmn:participant id="BenutzerParticipant" name="Benutzer" processRef="BenutzerProcess" />
+    <bpmn:participant id="IncidentManagementProzessParticipant" name="Incident Management Prozess" processRef="Process_0accrpt" />
+    <bpmn:participant id="StrategischesProzessmodellParticipant" name="Strategisches Prozessmodell" />
+    <bpmn:participant id="KollaborationsdiagrammParticipant" name="Kollaborationsdiagramm" />
+    <bpmn:participant id="N2ndLevelSupportParticipant" name="2nd Level Support" processRef="N2ndLevelProcess" />
+    <bpmn:participant id="EventManagementEMSystemParticipant" name="Event Management (EM)-System" />
+    <bpmn:participant id="ITSMChangeManagementSystemParticipant" name="ITSM Change Management-System" />
+    <bpmn:messageFlow id="StorungsinformationenMessageFlow" name="Störungs-informationen" sourceRef="StorungErfassenTask1" targetRef="StorungsmeldungErfasstStartEvent" />
+    <bpmn:messageFlow id="TelefonanrufMitStorungsinformationenMessageFlow" name="Telefonanruf mit Störungsinformationen" sourceRef="StorungTelefonischMeldenTask" targetRef="TelefonischeStorungsmeldungErhaltenStartEvent" />
+    <bpmn:messageFlow id="StorungsinformationenMessageFlow1" name="Störungs-informationen" sourceRef="StorungErfassenTask" targetRef="StorungsmeldungErfasstStartEvent" />
+    <bpmn:messageFlow id="AufgabeMitInformationenMessageFlow" name="Aufgabe mit Informationen" sourceRef="StorungKategorisierenPriorisierenUndDiagnostizierenTask" targetRef="StorungKategorisierenPriorisierenUndDiagnostizierenTask1" />
+    <bpmn:messageFlow id="KategoriePrioritatUndLosungMessageFlow" name="Kategorie, Priorität (und Lösung)" sourceRef="StorungKategorisierenPriorisierenUndDiagnostizierenTask1" targetRef="StorungKategorisierenPriorisierenUndDiagnostizierenTask" />
+    <bpmn:messageFlow id="AutomatischeStorungsmeldungMessageFlow" name="Automatische Störungsmeldung" sourceRef="EventManagementEMSystemParticipant" targetRef="StorungsmeldungAusEMErhaltenStartEvent" />
+    <bpmn:messageFlow id="AufgabeMitInformationenMessageFlow1" name="Aufgabe mit Informationen" sourceRef="StorungKategorisierenPriorisierenUndDiagnostizierenTask" targetRef="ZuKlassifizierendeStorungsmeldungErhaltenStartEvent" />
+    <bpmn:messageFlow id="InformationenUberErstelltenRfCMessageFlow" name="Informationen über erstellten RfC" sourceRef="UberRfCErstellungInformierenTask" targetRef="RfCInformationenErhaltenEvent" />
+    <bpmn:messageFlow id="StatusLosungAkzeptiertMessageFlow" name="Status &#34;Lösung akzeptiert&#34;" sourceRef="UberAkzeptierteLosungInformierenTask" targetRef="LosungAkzeptiertEvent" />
+    <bpmn:messageFlow id="FeedbackZuNichtAkzeptierterLosungMessageFlow" name="Feedback zu nicht akzeptierter Lösung" sourceRef="StorungKategorisierenPriorisierenUndDiagnostizierenTask" targetRef="LosungUberarbeitenMeldungErhaltenEvent" />
+    <bpmn:messageFlow id="EskalationsinformationenMessageFlow" name="Eskalations-informationen" sourceRef="BenutzerUberEskalationInformierenTask" targetRef="EskalationsInformationenErhaltenEvent" />
+    <bpmn:messageFlow id="InformationenUberRfCMessageFlow" name="Informationen über RfC" sourceRef="UberRfCErstellungInformierenTask" targetRef="RfCInformationenErhaltenEvent1" />
+    <bpmn:messageFlow id="AufgabeMitInformationenMessageFlow2" name="Aufgabe mit Informationen" sourceRef="LosungPrufenTask" targetRef="ZuPrufendeLosungErhaltenEvent" />
+    <bpmn:messageFlow id="AkzeptiertOderFeedbackZuLosungMessageFlow" name="Akzeptiert oder Feedback zu Lösung" sourceRef="LosungPrufenTask1" targetRef="LosungPrufenTask" />
+    <bpmn:messageFlow id="AufgabeMitInformationenMessageFlow3" name="Aufgabe mit Informationen" sourceRef="StorungDiagnostizierenTask" targetRef="ZuDiagnostizierendeStorungsmeldungErhaltenStartEvent" />
+    <bpmn:messageFlow id="LosungUndoderRfCInformationenMessageFlow" name="Lösung und/oder RfC-Informationen" sourceRef="LosungDiagnostizierenTask" targetRef="StorungDiagnostizierenTask" />
+    <bpmn:messageFlow id="FeedbackZuNichtAkzeptierterLosungMessageFlow1" name="Feedback zu nicht akzeptierter Lösung" sourceRef="StorungDiagnostizierenTask" targetRef="LosungUberarbeitenMeldungErhaltenEvent1" />
+    <bpmn:messageFlow id="StatusLosungAkzeptiertMessageFlow1" name="Status &#34;Lösung akzeptiert&#34;" sourceRef="UberAkzeptierteLosungInformierenTask" targetRef="LosungAkzeptiertEvent1" />
+    <bpmn:messageFlow id="RfCTitelBeschreibungUndBegrundungMessageFlow" name="RfC-Titel, -Beschreibung und -Begründung" sourceRef="RfCErstellenTask" targetRef="ITSMChangeManagementSystemParticipant" />
+    <bpmn:messageFlow id="RfCIdentifikatorOderFehlermeldungMessageFlow" name="RfC-Identifikator" sourceRef="ITSMChangeManagementSystemParticipant" targetRef="RfCErstellenTask" />
+  </bpmn:collaboration>
+  <bpmn:process id="IncidentManagementProcess" name="Störungsmanagement-Prozess" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_1vfjj35">
+      <bpmn:lane id="BenutzerLane" name="Benutzer">
+        <bpmn:flowNodeRef>StorungsmeldungErfasstStartEvent</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_0yifn3j</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>LosungPrufenTask</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="PP2ndLevelSupportLane" name="2nd Level Support">
+        <bpmn:flowNodeRef>StorungDiagnostizierenTask</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="AutomatischLane" name="Automatisch">
+        <bpmn:flowNodeRef>LosungGefundenGateway</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_0xvnwh7</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_1syzqn9</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StorungsmeldungAusEMErhaltenStartEvent</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ChangeErforderlichGateway</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>LosungAkzeptabelGateway</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StorungBehobenEndEvent</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StorungsmeldungAlsRfCEskaliertEndEvent</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Zustandigen2ndLevelSupportBestimmenTask</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>BenutzerUberEskalationInformierenTask</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RfCErstellenTask</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>UberRfCErstellungInformierenTask</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>UberAkzeptierteLosungInformierenTask</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="PPServiceDeskLane" name="Service Desk (1st Level)">
+        <bpmn:flowNodeRef>StorungKategorisierenPriorisierenUndDiagnostizierenTask</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="StorungsmeldungErfasstStartEvent" name="Störungsmeldung erfasst">
+      <bpmn:documentation>Anforderungen
+===========
+Formular mit folgenden Feldern:
+- Störungstitel (title)
+- Dringlichkeit (urgency) mit drei möglichen Werten:
+  - 1 - kein Arbeiten möglich
+  - 2 - Arbeiten eingeschränkt möglich
+  - 3 - Arbeiten uneingeschränkt möglich
+- Störungsbeschreibung (incident_description)
+- Initiierender Benutzer (initiating_user)
+
+
+Beim Anlegen einer neuen Prozessinstanz soll automatisch ein Business Key generiert werden mit dem Aufbau "I-LOGGEDINUSER-JJJJ-MM-TT_HH-MM-SS", wobei beim Datum die aktuelle Uhrzeit auf dem Server übernommen werden soll.
+
+
+Wenn der Benutzer das Formular absendet, sollen allfällige Fehler, die später in der Prozessinstanz auftreten, nicht dazu führen, dass er das Formular nicht erfolgreich absenden kann.
+
+Weitere Hinweise
+=============
+Streng genommen müsste dieses Startereignis in zwei Varianten angeboten werden, einmal in der Lane Mitarbeiter und einmal in der Lane Service Desk =&gt; prototypische Vereinfachung.
+
+Auch könnte man hier typischerweise weitere Angaben erfassen wie z.B. Dateianhänge, was wir nicht implementieren.
+
+Und schliesslich würde das Formular sinnvollerweise auch von Haus aus mit weiteren Informationen bestückt (z.B. automatisch Name, Vorname, usw. aus AD ausgelesen).
+</bpmn:documentation>
+      <bpmn:outgoing>Flow_0mddtig</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="LosungGefundenGateway" name="Lösung gefunden?">
+      <bpmn:incoming>Flow_16k4vyx</bpmn:incoming>
+      <bpmn:outgoing>NeinSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>JaSequenceFlow1</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_0xvnwh7">
+      <bpmn:incoming>Flow_00ru07g</bpmn:incoming>
+      <bpmn:incoming>NeinSequenceFlow1</bpmn:incoming>
+      <bpmn:outgoing>Flow_0a5bddm</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_1syzqn9">
+      <bpmn:incoming>Flow_0mddtig</bpmn:incoming>
+      <bpmn:incoming>Flow_0s8rcaf</bpmn:incoming>
+      <bpmn:outgoing>Flow_00ru07g</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:startEvent id="StorungsmeldungAusEMErhaltenStartEvent" name="Störungsmeldung aus EM erhalten">
+      <bpmn:documentation>Diese Anforderung wird Björn als Demo implementieren =&gt; keine Aufgabe für Dich.
+
+
+Anforderung
+=========
+Es wird eine neue Prozessinstanz programmatisch erstellt mit den erforderlichen Prozessvariablen (analog zu Startereignis 'Störungsmeldung erfasst'), wenn aus einem Event-Management-Tool ein POST-Request auf http://localhost:8081/engine-rest/message gesendet wird.
+
+PS: Auch wenn dies von einem Event Management-System kommt, soll jeweils ein Benutzer hinterlegt werden, an den später die Informationen gesendet werden können und welcher die Lösung prüft (würde man in Realität vermutlich anders lösen).</bpmn:documentation>
+      <bpmn:outgoing>Flow_0s8rcaf</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1nztxpx" messageRef="Message_0im14jd" />
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="ChangeErforderlichGateway" name="Change erforderlich?">
+      <bpmn:incoming>Flow_180r3ck</bpmn:incoming>
+      <bpmn:outgoing>JaSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>NeinSequenceFlow2</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_0yifn3j">
+      <bpmn:incoming>NeinSequenceFlow2</bpmn:incoming>
+      <bpmn:incoming>JaSequenceFlow1</bpmn:incoming>
+      <bpmn:outgoing>Flow_1whffa6</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="LosungAkzeptabelGateway" name="Lösung akzeptabel?">
+      <bpmn:incoming>Flow_0axoxrc</bpmn:incoming>
+      <bpmn:outgoing>JaSequenceFlow2</bpmn:outgoing>
+      <bpmn:outgoing>NeinSequenceFlow1</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="StorungBehobenEndEvent" name="Störung behoben">
+      <bpmn:incoming>Flow_0cgu3rb</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="StorungsmeldungAlsRfCEskaliertEndEvent" name="Störungsmeldung als RfC eskaliert">
+      <bpmn:incoming>Flow_1en3knz</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0axoxrc" sourceRef="LosungPrufenTask" targetRef="LosungAkzeptabelGateway" />
+    <bpmn:sequenceFlow id="JaSequenceFlow1" name="Ja" sourceRef="LosungGefundenGateway" targetRef="Gateway_0yifn3j" />
+    <bpmn:sequenceFlow id="Flow_0mddtig" sourceRef="StorungsmeldungErfasstStartEvent" targetRef="Gateway_1syzqn9" />
+    <bpmn:sequenceFlow id="NeinSequenceFlow2" name="Nein" sourceRef="ChangeErforderlichGateway" targetRef="Gateway_0yifn3j" />
+    <bpmn:sequenceFlow id="Flow_16k4vyx" sourceRef="StorungKategorisierenPriorisierenUndDiagnostizierenTask" targetRef="LosungGefundenGateway" />
+    <bpmn:sequenceFlow id="Flow_0a5bddm" sourceRef="Gateway_0xvnwh7" targetRef="StorungKategorisierenPriorisierenUndDiagnostizierenTask" />
+    <bpmn:sequenceFlow id="NeinSequenceFlow" name="Nein" sourceRef="LosungGefundenGateway" targetRef="Zustandigen2ndLevelSupportBestimmenTask" />
+    <bpmn:sequenceFlow id="NeinSequenceFlow1" name="Nein" sourceRef="LosungAkzeptabelGateway" targetRef="Gateway_0xvnwh7">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!solution_accepted}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_00ru07g" sourceRef="Gateway_1syzqn9" targetRef="Gateway_0xvnwh7" />
+    <bpmn:sequenceFlow id="Flow_0s8rcaf" sourceRef="StorungsmeldungAusEMErhaltenStartEvent" targetRef="Gateway_1syzqn9" />
+    <bpmn:sequenceFlow id="Flow_1en3knz" sourceRef="UberRfCErstellungInformierenTask" targetRef="StorungsmeldungAlsRfCEskaliertEndEvent" />
+    <bpmn:sequenceFlow id="Flow_0tkg7bi" sourceRef="BenutzerUberEskalationInformierenTask" targetRef="StorungDiagnostizierenTask" />
+    <bpmn:sequenceFlow id="Flow_180r3ck" sourceRef="StorungDiagnostizierenTask" targetRef="ChangeErforderlichGateway" />
+    <bpmn:sequenceFlow id="JaSequenceFlow" name="Ja" sourceRef="ChangeErforderlichGateway" targetRef="RfCErstellenTask" />
+    <bpmn:sequenceFlow id="Flow_126o88o" sourceRef="RfCErstellenTask" targetRef="UberRfCErstellungInformierenTask" />
+    <bpmn:sequenceFlow id="Flow_1s4lt25" sourceRef="Zustandigen2ndLevelSupportBestimmenTask" targetRef="BenutzerUberEskalationInformierenTask" />
+    <bpmn:sequenceFlow id="Flow_1whffa6" sourceRef="Gateway_0yifn3j" targetRef="LosungPrufenTask" />
+    <bpmn:sequenceFlow id="JaSequenceFlow2" name="Ja" sourceRef="LosungAkzeptabelGateway" targetRef="UberAkzeptierteLosungInformierenTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${solution_accepted}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0cgu3rb" sourceRef="UberAkzeptierteLosungInformierenTask" targetRef="StorungBehobenEndEvent" />
+    <bpmn:task id="StorungKategorisierenPriorisierenUndDiagnostizierenTask" name="Störung kategorisieren, priorisieren und diagnostizieren">
+      <bpmn:documentation>Anforderungen
+===========
+Aufgabe soll allen Mitarbeitenden aus der Gruppe servicedesk angezeigt werden.
+
+Formular mit folgenden Feldern:
+- Alle aus dem Formular in Startereignis 'Störungsmeldung erfasst' (initiating_user schreibgeschützt) und zusätzlich ...
+- Kategorie (category) mit folgenden Werten:
+  - Hardware Desktop (hw.desktop)
+  - Hardware Telefon (hw.phone)
+  - Hardware Notebook (hw.notebook)
+  - Hardware Smartphone (hw.smartphone)
+  - Hardware Sonstige (hw.other)
+  - Software Betriebssystem (sw.os)
+  - Software Office 365 (sw.office)
+  - Software Sonstige (sw.other)
+- Priorität (priority) mit den folgenden Werten:
+  - niedrig (low)
+  - mittel (middle)
+  - hoch (high)
+- Lösungsbeschreibung (solution_description)
+- Zu 2nd Level Support eskalieren? (escalate_to_2nd_level) vom Typ Ja/Nein
+- Feedback des Benutzers (user_feedback) schreibgeschützt
+
+Wenn der Benutzer das Formular absendet, sollen allfällige Fehler, die später in der Prozessinstanz auftreten, nicht dazu führen, dass er das Formular nicht erfolgreich absenden kann.
+
+Weitere Hinweise
+==============
+Das Feld "Feedback des Benutzers" ist erforderlich, damit ab dem zweiten Erstellen dieser Aufgabe der Mitarbeiter das Feedback sehen kann. In der Realität würde man das Formular so gestalten, dass bei der ersten Ausführung dieses Feld nicht angezeigt wird. Damit beim erstmaligen Absenden des Formulars keine Validation fehlschlägt, weil die Prozessvariable noch gar nicht existiert, muss z.B. in einem Start-Execution Listener die Variable auf "" gesetzt werden.
+
+Das Feld Kategorie würde man in der Realität a) vermutlich eher als Baumstruktur zur Auswahl anbieten und b) die Werte dynamisch aus z.B. einem ITSM-System lesen.
+
+
+Je nachdem kann dies auch bedeuten, dass der Service-Desk-Mitarbeiter selbst eine Lösung umsetzt (und testet) und dann lediglich dokumentiert, was er gemacht hat.
+
+
+Hier würde in der Realität der Mitarbeiter sicher auch unterstützt durch Know Errors Datenbank, Auflistung ähnlicher Incidents inkl. Lösung, der Möglichkeit diesen Incident mit anderen zu gruppieren, usw.</bpmn:documentation>
+      <bpmn:incoming>Flow_0a5bddm</bpmn:incoming>
+      <bpmn:outgoing>Flow_16k4vyx</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Zustandigen2ndLevelSupportBestimmenTask" name="Zuständigen 2nd Level Support bestimmen">
+      <bpmn:documentation>Anforderungen
+===========
+Ermittlung über Entscheidungstabelle in DMN der zuständigen Benutzergruppe als Output in Prozessvariable responsible_group basierend auf Input der Prozessvariablen priority und category mit folgenden Regeln:
+- Alle High-Prio-Incidents geht an Benutzergruppe super-senior-cracks
+- Low- und Middle Hardware-Störungen gehen an hardware-team
+- Low- und Middle Betriebssystem-Störungen gehen an os-team
+- Middle Office 365-Störungen gehen an office-2nd-team
+- Low Office 365-Störungen gehen an office-1st-team
+- Low- und Middle übrige Software-Störungen gehen an beissen-die-hunde-team
+
+
+Weitere Hinweise
+=============
+Zugegebenermassen ist hier die Nutzung von DMN etwas gesucht, aber denkbar. In der Realität würde wohl entweder eher der Service Desk-Mitarbeiter den zuständigen 2nd-Level-Support bestimmen, oder über sonstige Regeln (z.B. basierend auf betroffenem Service der Service-Verantwortliche, usw.) oder über Machine Learning würde die Zuordnung vorgenommen.</bpmn:documentation>
+      <bpmn:incoming>NeinSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1s4lt25</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="BenutzerUberEskalationInformierenTask" name="Benutzer über Eskalation informieren">
+      <bpmn:documentation>Anforderungen
+============
+Der Benutzer wird über den von ihm gewünschten Kanal (WhatsApp, Push-Notification, SMS, E-Mail) benachrichtigt, zu welcher 2nd-Level-Gruppe die Störung eskaliert wurde, sowie welche Priorität die Störung erhalten hat.
+
+Die lokale Variable notification_content hat also einen Inhalt in der folgenden Art: "Die Störung 'TITLE (BUSINESSKEY)' hat die Priorität PRIORITY und wurde an den 2nd Level-Support eskaliert, konkret an das Team RESPONSIBLE_GROUP."
+
+Die lokale Variable notification_recipients ist eine Liste mit dem einzigen Eintrag bestehend aus der Prozessvariable initiating_user.
+
+Weitere Hinweise
+=============
+Diese Anforderung soll nicht in der Prozessapplikation selbst realisiert werden, sondern über einen entsprechend gestalteten Microservice, der als External Task Client auf Aufgaben des Topics IncidentManagementNotification abonniert.</bpmn:documentation>
+      <bpmn:incoming>Flow_1s4lt25</bpmn:incoming>
+      <bpmn:outgoing>Flow_0tkg7bi</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="StorungDiagnostizierenTask" name="Störung diagnostizieren">
+      <bpmn:documentation>Anforderungen
+===========
+Aufgabe soll allen Mitarbeitenden aus der Gruppe zuständigen 2nd Level Support-Gruppe angezeigt werden.
+
+
+Formular mit folgenden Feldern:
+- Alle aus dem Formular in User Task 'Störung kategorisieren ...' und zusätzlich die folgenden drei RfC-Felder...
+  - RfC-Titel (rfc_title)
+  - RfC-Beschreibung (rfc_description)
+  - RfC-Begründung (rfc_reasons)
+
+Wenn der Benutzer das Formular absendet, sollen allfällige Fehler, die später in der Prozessinstanz auftreten, nicht dazu führen, dass er das Formular nicht erfolgreich absenden kann.
+
+
+Weitere Hinweise
+==============
+Je nachdem kann dies auch bedeuten, dass der Support-Mitarbeiter selbst eine Lösung umsetzt (und testet) und dann lediglich dokumentiert, was er gemacht hat.
+</bpmn:documentation>
+      <bpmn:incoming>Flow_0tkg7bi</bpmn:incoming>
+      <bpmn:outgoing>Flow_180r3ck</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="RfCErstellenTask" name="RfC erstellen">
+      <bpmn:documentation>Anforderungen
+===========
+Die vom Mitarbeiter erfassten Informationen zum RfC (Titel, Beschreibung und Begründung) sollen in einem POST-Request an die REST API des ITSM Change Management-Systems gesendet werden und die von der API retournierte RfC-ID in der Prozessvariable rfc_id persistiert werden.
+
+
+Die Implementierung soll über Delegate Expression laufen.
+
+
+
+
+Weitere Hinweise
+=============
+In der Realität könnte der POST-Request aus den verschiedensten Gründen fehlschlagen. Wir ignorieren dies.</bpmn:documentation>
+      <bpmn:incoming>JaSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_126o88o</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="UberRfCErstellungInformierenTask" name="Über RfC-Erstellung informieren">
+      <bpmn:documentation>Anforderungen
+============
+Der Benutzer und Service Desk wird über den jeweils gewünschten Kanal (WhatsApp, Push-Notification, SMS, E-Mail) über den erstellten RfC benachrichtigt.
+
+Die lokale Variable notification_content hat also einen Inhalt in der folgenden Art: "Die Störung 'TITLE (BUSINESSKEY)' wurde zu einem RfC eskaliert mit den folgenden Informationen:
+
+- Titel: RFC_TITLE
+- Beschreibung: RFC_DESCRIPTION
+- Begründung: RFC_REASONS
+
+Daher wird die Störung geschlossen. Eventuell hilft Ihnen auch die Beschreibung der vorübergehenden (Workaround)-Lösung: SOLUTION_DESCRIPTION"
+
+Die lokale Variable notification_recipients ist eine Liste mit zwei Einträgen:
+- Eintrag bestehend aus der Prozessvariable initiating_user
+- "servicedesk"
+
+
+Weitere Hinweise
+=============
+Diese Anforderung soll nicht in der Prozessapplikation selbst realisiert werden, sondern über einen entsprechend gestalteten Microservice, der als External Task Client auf Aufgaben des Topics IncidentManagementNotification abonniert.
+
+Statt statisch eine Notification an servicedesk zu senden, würde diese stattdessen eher dynamisch an die Person des Service Desks gesendet, welche das Ticket zuletzt bearbeitete.</bpmn:documentation>
+      <bpmn:incoming>Flow_126o88o</bpmn:incoming>
+      <bpmn:outgoing>Flow_1en3knz</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="LosungPrufenTask" name="Lösung prüfen">
+      <bpmn:documentation>Anforderungen
+===========
+Aufgabe soll dem initierenden Benutzer zugewiesen werden.
+
+Formular mit den schreibgeschützten Feldern aus User Task "Störung kategoris..." title, urgency, incident_description, category, priority, und solution_description sowie nicht schreibgeschützt user_feedback. Zusätzlich folgendes Feld:
+- Lösung akzeptiert? (solution_accepted) vom Typ Ja/Nein
+
+Wenn der Benutzer das Formular absendet, sollen allfällige Fehler, die später in der Prozessinstanz auftreten, nicht dazu führen, dass er das Formular nicht erfolgreich absenden kann.
+
+
+Weitere Hinweise
+==============
+Je nachdem kann dies auch bedeuten, dass der Benutzer zunächst die Lösungsbeschreibung selbst umsetzen muss und dann erst prüfen kann, ob die Lösung funktioniert. </bpmn:documentation>
+      <bpmn:incoming>Flow_1whffa6</bpmn:incoming>
+      <bpmn:outgoing>Flow_0axoxrc</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="UberAkzeptierteLosungInformierenTask" name="Über akzeptierte Lösung informieren">
+      <bpmn:documentation>Anforderungen
+============
+Der Service Desk (und 2nd Level Support) wird über den jeweils gewünschten Kanal (WhatsApp, Push-Notification, SMS, E-Mail) über den erstellten RfC benachrichtigt.
+
+
+Die lokale Variable notification_content hat also einen Inhalt in der folgenden Art: "Die Lösung zur Störung 'TITLE (BUSINESSKEY)' wurde vom Benutzer akzeptiert und der Incident Management-Prozess damit beendet."
+
+
+Die lokale Variable notification_recipients ist eine Liste mit zwei Einträgen:
+- "servicedesk"
+- Inhalt der Prozessvariable responsible_group (kann null sein)
+
+
+Weitere Hinweise
+=============
+Diese Anforderung soll nicht in der Prozessapplikation selbst realisiert werden, sondern über einen entsprechend gestalteten Microservice, der als External Task Client auf Aufgaben des Topics IncidentManagementNotification abonniert.
+
+
+Statt statisch eine Notification an servicedesk zu senden, würde diese stattdessen eher dynamisch an die Person des Service Desks gesendet, welche das Ticket zuletzt bearbeitete.</bpmn:documentation>
+      <bpmn:incoming>JaSequenceFlow2</bpmn:incoming>
+      <bpmn:outgoing>Flow_0cgu3rb</bpmn:outgoing>
+    </bpmn:task>
+  </bpmn:process>
+  <bpmn:message id="Message_0im14jd" name="Message_Incident_From_Event" />
+  <bpmn:process id="ServiceDeskProcess" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_0wf3w7n">
+      <bpmn:lane id="SDSonstigesLane" name="Sonstiges">
+        <bpmn:flowNodeRef>ZuKlassifizierendeStorungsmeldungErhaltenStartEvent</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>TelefonischeStorungsmeldungErhaltenStartEvent</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_0ce4so2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RfCInformationenErhaltenEvent</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StorungInRfCEskaliertEndEvent</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>LosungAkzeptiertEvent</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StorungBehobenEndEvent1</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="SDProzessportalLane" name="Prozessportal">
+        <bpmn:flowNodeRef>StorungErfassenTask</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_06aa9oh</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StorungKategorisierenPriorisierenUndDiagnostizierenTask1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>LosungUberarbeitenMeldungErhaltenEvent</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:task id="StorungErfassenTask" name="Störung erfassen">
+      <bpmn:incoming>Flow_0820tiv</bpmn:incoming>
+      <bpmn:outgoing>Flow_1bjbfin</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="Gateway_06aa9oh">
+      <bpmn:incoming>Flow_1bjbfin</bpmn:incoming>
+      <bpmn:incoming>Flow_1b50qk8</bpmn:incoming>
+      <bpmn:incoming>Flow_088m2zw</bpmn:incoming>
+      <bpmn:outgoing>Flow_15j0oxx</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="StorungKategorisierenPriorisierenUndDiagnostizierenTask1" name="Störung kategorisieren, priorisieren und diagnostizieren">
+      <bpmn:documentation>Bedeutet allenfalls auch, dass der Mitarbeitende einen gefundenen Lösungsvorschlag gleich selbst umsetzt (z.B. das Neustarten eines Servers) und dann die gefundene Lösung dokumentiert. </bpmn:documentation>
+      <bpmn:incoming>Flow_15j0oxx</bpmn:incoming>
+      <bpmn:outgoing>Flow_0xvzo6s</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:startEvent id="ZuKlassifizierendeStorungsmeldungErhaltenStartEvent" name="Zu klassifizierende Störungsmeldung erhalten">
+      <bpmn:outgoing>Flow_1b50qk8</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_051mfwi" />
+    </bpmn:startEvent>
+    <bpmn:startEvent id="TelefonischeStorungsmeldungErhaltenStartEvent" name="Telefonische Störungsmeldung erhalten">
+      <bpmn:outgoing>Flow_0820tiv</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0aspekf" />
+    </bpmn:startEvent>
+    <bpmn:eventBasedGateway id="Gateway_0ce4so2">
+      <bpmn:incoming>Flow_0xvzo6s</bpmn:incoming>
+      <bpmn:outgoing>Flow_1jg0jrw</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1unzzzh</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1vnrdwm</bpmn:outgoing>
+    </bpmn:eventBasedGateway>
+    <bpmn:intermediateCatchEvent id="LosungUberarbeitenMeldungErhaltenEvent" name="Lösung überarbeiten-Meldung erhalten">
+      <bpmn:incoming>Flow_1unzzzh</bpmn:incoming>
+      <bpmn:outgoing>Flow_088m2zw</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1lkbesi" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="RfCInformationenErhaltenEvent" name="RfC-Informationen erhalten">
+      <bpmn:incoming>Flow_1vnrdwm</bpmn:incoming>
+      <bpmn:outgoing>Flow_1v0f9zt</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1u2jply" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:endEvent id="StorungInRfCEskaliertEndEvent" name="Störung in RfC eskaliert">
+      <bpmn:incoming>Flow_1v0f9zt</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:intermediateCatchEvent id="LosungAkzeptiertEvent" name="Lösung akzeptiert">
+      <bpmn:incoming>Flow_1jg0jrw</bpmn:incoming>
+      <bpmn:outgoing>Flow_0qky8ug</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1n005da" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:endEvent id="StorungBehobenEndEvent1" name="Störung behoben">
+      <bpmn:incoming>Flow_0qky8ug</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1vnrdwm" sourceRef="Gateway_0ce4so2" targetRef="RfCInformationenErhaltenEvent" />
+    <bpmn:sequenceFlow id="Flow_0xvzo6s" sourceRef="StorungKategorisierenPriorisierenUndDiagnostizierenTask1" targetRef="Gateway_0ce4so2" />
+    <bpmn:sequenceFlow id="Flow_088m2zw" sourceRef="LosungUberarbeitenMeldungErhaltenEvent" targetRef="Gateway_06aa9oh" />
+    <bpmn:sequenceFlow id="Flow_1unzzzh" sourceRef="Gateway_0ce4so2" targetRef="LosungUberarbeitenMeldungErhaltenEvent" />
+    <bpmn:sequenceFlow id="Flow_1jg0jrw" sourceRef="Gateway_0ce4so2" targetRef="LosungAkzeptiertEvent" />
+    <bpmn:sequenceFlow id="Flow_0820tiv" sourceRef="TelefonischeStorungsmeldungErhaltenStartEvent" targetRef="StorungErfassenTask" />
+    <bpmn:sequenceFlow id="Flow_1bjbfin" sourceRef="StorungErfassenTask" targetRef="Gateway_06aa9oh" />
+    <bpmn:sequenceFlow id="Flow_15j0oxx" sourceRef="Gateway_06aa9oh" targetRef="StorungKategorisierenPriorisierenUndDiagnostizierenTask1" />
+    <bpmn:sequenceFlow id="Flow_1b50qk8" sourceRef="ZuKlassifizierendeStorungsmeldungErhaltenStartEvent" targetRef="Gateway_06aa9oh" />
+    <bpmn:sequenceFlow id="Flow_1v0f9zt" sourceRef="RfCInformationenErhaltenEvent" targetRef="StorungInRfCEskaliertEndEvent" />
+    <bpmn:sequenceFlow id="Flow_0qky8ug" sourceRef="LosungAkzeptiertEvent" targetRef="StorungBehobenEndEvent1" />
+  </bpmn:process>
+  <bpmn:process id="BenutzerProcess" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_13ib1tz">
+      <bpmn:lane id="UserSonstigesLane" name="Sonstiges">
+        <bpmn:flowNodeRef>NichtSelbstBehebbareStorungErkanntStartEvent</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_17hv69g</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>FurKanalDerKommunikationEntscheidenTask</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StorungTelefonischMeldenTask</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_100hoof</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_0xk5ds3</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ZuPrufendeLosungErhaltenEvent</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EskalationsInformationenErhaltenEvent</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RfCInformationenErhaltenEvent1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StorungInRfCEskaliertEndEvent1</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="UserProzessportalLane" name="Prozessportal">
+        <bpmn:flowNodeRef>StorungErfassenTask1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>LosungPrufenTask1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>LosungAkzeptabelGateway1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StorungBehobenEndEvent2</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:task id="StorungErfassenTask1" name="Störung erfassen">
+      <bpmn:incoming>ProzessportalSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_0pkcm7u</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="LosungPrufenTask1" name="Lösung prüfen">
+      <bpmn:incoming>Flow_0emh99m</bpmn:incoming>
+      <bpmn:outgoing>Flow_1shued3</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="LosungAkzeptabelGateway1" name="Lösung akzeptabel?">
+      <bpmn:incoming>Flow_1shued3</bpmn:incoming>
+      <bpmn:outgoing>JaSequenceFlow3</bpmn:outgoing>
+      <bpmn:outgoing>NeinSequenceFlow3</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="StorungBehobenEndEvent2" name="Störung behoben">
+      <bpmn:incoming>JaSequenceFlow3</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:startEvent id="NichtSelbstBehebbareStorungErkanntStartEvent" name="Nicht selbst behebbare Störung erkannt">
+      <bpmn:outgoing>Flow_07x01c9</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="Gateway_17hv69g">
+      <bpmn:incoming>Flow_16fk4s3</bpmn:incoming>
+      <bpmn:outgoing>ProzessportalSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1nxvpzy</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="FurKanalDerKommunikationEntscheidenTask" name="Für Kanal der Kommunikation entscheiden">
+      <bpmn:incoming>Flow_07x01c9</bpmn:incoming>
+      <bpmn:outgoing>Flow_16fk4s3</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="StorungTelefonischMeldenTask" name="Störung telefonisch melden">
+      <bpmn:incoming>Flow_1nxvpzy</bpmn:incoming>
+      <bpmn:outgoing>Flow_1h8i2os</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="Gateway_100hoof">
+      <bpmn:incoming>Flow_0pkcm7u</bpmn:incoming>
+      <bpmn:incoming>Flow_1h8i2os</bpmn:incoming>
+      <bpmn:incoming>NeinSequenceFlow3</bpmn:incoming>
+      <bpmn:outgoing>Flow_1wdeofe</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:eventBasedGateway id="Gateway_0xk5ds3">
+      <bpmn:incoming>Flow_1wdeofe</bpmn:incoming>
+      <bpmn:outgoing>Flow_1t9udr9</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1rpqeko</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1eyxpbl</bpmn:outgoing>
+    </bpmn:eventBasedGateway>
+    <bpmn:intermediateCatchEvent id="ZuPrufendeLosungErhaltenEvent" name="Zu prüfende Lösung erhalten">
+      <bpmn:incoming>Flow_1t9udr9</bpmn:incoming>
+      <bpmn:outgoing>Flow_0emh99m</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0x8b2xu" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="EskalationsInformationenErhaltenEvent" name="Eskalations-Informationen erhalten">
+      <bpmn:incoming>Flow_1rpqeko</bpmn:incoming>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0ng2nxc" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="RfCInformationenErhaltenEvent1" name="RfC-Informationen erhalten">
+      <bpmn:incoming>Flow_1eyxpbl</bpmn:incoming>
+      <bpmn:outgoing>Flow_1mkr38v</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0ug5u9f" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:endEvent id="StorungInRfCEskaliertEndEvent1" name="Störung in RfC eskaliert">
+      <bpmn:incoming>Flow_1mkr38v</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="JaSequenceFlow3" name="Ja" sourceRef="LosungAkzeptabelGateway1" targetRef="StorungBehobenEndEvent2" />
+    <bpmn:sequenceFlow id="Flow_1shued3" sourceRef="LosungPrufenTask1" targetRef="LosungAkzeptabelGateway1" />
+    <bpmn:sequenceFlow id="NeinSequenceFlow3" name="Nein" sourceRef="LosungAkzeptabelGateway1" targetRef="Gateway_100hoof" />
+    <bpmn:sequenceFlow id="Flow_0emh99m" sourceRef="ZuPrufendeLosungErhaltenEvent" targetRef="LosungPrufenTask1" />
+    <bpmn:sequenceFlow id="ProzessportalSequenceFlow" name="Prozessportal" sourceRef="Gateway_17hv69g" targetRef="StorungErfassenTask1" />
+    <bpmn:sequenceFlow id="Flow_0pkcm7u" sourceRef="StorungErfassenTask1" targetRef="Gateway_100hoof" />
+    <bpmn:sequenceFlow id="Flow_07x01c9" sourceRef="NichtSelbstBehebbareStorungErkanntStartEvent" targetRef="FurKanalDerKommunikationEntscheidenTask" />
+    <bpmn:sequenceFlow id="Flow_16fk4s3" sourceRef="FurKanalDerKommunikationEntscheidenTask" targetRef="Gateway_17hv69g" />
+    <bpmn:sequenceFlow id="Flow_1nxvpzy" sourceRef="Gateway_17hv69g" targetRef="StorungTelefonischMeldenTask" />
+    <bpmn:sequenceFlow id="Flow_1h8i2os" sourceRef="StorungTelefonischMeldenTask" targetRef="Gateway_100hoof" />
+    <bpmn:sequenceFlow id="Flow_1wdeofe" sourceRef="Gateway_100hoof" targetRef="Gateway_0xk5ds3" />
+    <bpmn:sequenceFlow id="Flow_1t9udr9" sourceRef="Gateway_0xk5ds3" targetRef="ZuPrufendeLosungErhaltenEvent" />
+    <bpmn:sequenceFlow id="Flow_1rpqeko" sourceRef="Gateway_0xk5ds3" targetRef="EskalationsInformationenErhaltenEvent" />
+    <bpmn:sequenceFlow id="Flow_1mkr38v" sourceRef="RfCInformationenErhaltenEvent1" targetRef="StorungInRfCEskaliertEndEvent1" />
+    <bpmn:sequenceFlow id="Flow_1eyxpbl" sourceRef="Gateway_0xk5ds3" targetRef="RfCInformationenErhaltenEvent1" />
+  </bpmn:process>
+  <bpmn:process id="Process_0accrpt" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_1jce4cv">
+      <bpmn:lane id="StratAutomatischLane" name="Automatisch">
+        <bpmn:flowNodeRef>Zustandigen2ndLevelSupportBestimmenTask1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StorungsmeldungAusEMErhaltenStartEvent1</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Strat2ndLevelSupportLane" name="2nd Level Support">
+        <bpmn:flowNodeRef>StorungDiagnostizierenTask1</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="StratServiceDeskLane" name="Service Desk">
+        <bpmn:flowNodeRef>Gateway_1tcrikj</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StorungKategorisierenPriorisierenUndDiagnostizierenTask2</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="StratBenutzerLane" name="Benutzer">
+        <bpmn:flowNodeRef>StorungErkanntStartEvent</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StorungErfassenTask2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>LosungPrufenTask2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StorungBehobenEndEvent3</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="StorungErkanntStartEvent" name="Störung erkannt">
+      <bpmn:outgoing>Flow_1l792sh</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="StorungErfassenTask2" name="Störung erfassen">
+      <bpmn:incoming>Flow_1l792sh</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ykb5ax</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="Gateway_1tcrikj">
+      <bpmn:incoming>Flow_1ykb5ax</bpmn:incoming>
+      <bpmn:incoming>Flow_0es2n7b</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ez5av9</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="StorungKategorisierenPriorisierenUndDiagnostizierenTask2" name="Störung kategorisieren, priorisieren und diagnostizieren">
+      <bpmn:incoming>Flow_1ez5av9</bpmn:incoming>
+      <bpmn:outgoing>Flow_0wg45z2</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="StorungDiagnostizierenTask1" name="Störung diagnostizieren">
+      <bpmn:incoming>Flow_1q0bbd4</bpmn:incoming>
+      <bpmn:outgoing>Flow_0nx25px</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="LosungPrufenTask2" name="Lösung prüfen">
+      <bpmn:incoming>Flow_0nx25px</bpmn:incoming>
+      <bpmn:outgoing>Flow_0k0nu8q</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="StorungBehobenEndEvent3" name="Störung behoben">
+      <bpmn:incoming>Flow_0k0nu8q</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="Zustandigen2ndLevelSupportBestimmenTask1" name="Zuständigen 2nd Level Support bestimmen">
+      <bpmn:incoming>Flow_0wg45z2</bpmn:incoming>
+      <bpmn:outgoing>Flow_1q0bbd4</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:startEvent id="StorungsmeldungAusEMErhaltenStartEvent1" name="Störungsmeldung aus EM erhalten">
+      <bpmn:outgoing>Flow_0es2n7b</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0k0nu8q" sourceRef="LosungPrufenTask2" targetRef="StorungBehobenEndEvent3" />
+    <bpmn:sequenceFlow id="Flow_0nx25px" sourceRef="StorungDiagnostizierenTask1" targetRef="LosungPrufenTask2" />
+    <bpmn:sequenceFlow id="Flow_1q0bbd4" sourceRef="Zustandigen2ndLevelSupportBestimmenTask1" targetRef="StorungDiagnostizierenTask1" />
+    <bpmn:sequenceFlow id="Flow_0wg45z2" sourceRef="StorungKategorisierenPriorisierenUndDiagnostizierenTask2" targetRef="Zustandigen2ndLevelSupportBestimmenTask1" />
+    <bpmn:sequenceFlow id="Flow_0es2n7b" sourceRef="StorungsmeldungAusEMErhaltenStartEvent1" targetRef="Gateway_1tcrikj" />
+    <bpmn:sequenceFlow id="Flow_1ez5av9" sourceRef="Gateway_1tcrikj" targetRef="StorungKategorisierenPriorisierenUndDiagnostizierenTask2" />
+    <bpmn:sequenceFlow id="Flow_1ykb5ax" sourceRef="StorungErfassenTask2" targetRef="Gateway_1tcrikj" />
+    <bpmn:sequenceFlow id="Flow_1l792sh" sourceRef="StorungErkanntStartEvent" targetRef="StorungErfassenTask2" />
+  </bpmn:process>
+  <bpmn:process id="N2ndLevelProcess" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_1ifxnxe">
+      <bpmn:lane id="N2ndProzessportalLane" name="Prozessportal">
+        <bpmn:flowNodeRef>LosungDiagnostizierenTask</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="N2ndSonstigesLane" name="Sonstiges">
+        <bpmn:flowNodeRef>ZuDiagnostizierendeStorungsmeldungErhaltenStartEvent</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_0samvxh</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ChangeErforderlichGateway1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_1dg5ore</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StorungsmeldungAlsRfCEskaliertEndEvent1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>LosungUberarbeitenMeldungErhaltenEvent1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>LosungAkzeptiertEvent1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StorungBehobenEndEvent4</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="ZuDiagnostizierendeStorungsmeldungErhaltenStartEvent" name="Zu diagnostizierende Störungsmeldung erhalten">
+      <bpmn:outgoing>Flow_1ygcly6</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0bw2vav" />
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="Gateway_0samvxh">
+      <bpmn:incoming>Flow_1ygcly6</bpmn:incoming>
+      <bpmn:incoming>Flow_0eyniot</bpmn:incoming>
+      <bpmn:outgoing>Flow_15nzck0</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="LosungDiagnostizierenTask" name="Lösung diagnostizieren">
+      <bpmn:incoming>Flow_15nzck0</bpmn:incoming>
+      <bpmn:outgoing>Flow_0xbltek</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="ChangeErforderlichGateway1" name="Change erforderlich?">
+      <bpmn:incoming>Flow_0xbltek</bpmn:incoming>
+      <bpmn:outgoing>JaSequenceFlow4</bpmn:outgoing>
+      <bpmn:outgoing>NeinSequenceFlow4</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:eventBasedGateway id="Gateway_1dg5ore">
+      <bpmn:incoming>NeinSequenceFlow4</bpmn:incoming>
+      <bpmn:outgoing>Flow_1qrzvck</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0sil779</bpmn:outgoing>
+    </bpmn:eventBasedGateway>
+    <bpmn:endEvent id="StorungsmeldungAlsRfCEskaliertEndEvent1" name="Störungsmeldung als RfC eskaliert">
+      <bpmn:incoming>JaSequenceFlow4</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:intermediateCatchEvent id="LosungUberarbeitenMeldungErhaltenEvent1" name="Lösung überarbeiten-Meldung erhalten">
+      <bpmn:incoming>Flow_0sil779</bpmn:incoming>
+      <bpmn:outgoing>Flow_0eyniot</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0q1toh2" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="LosungAkzeptiertEvent1" name="Lösung akzeptiert">
+      <bpmn:incoming>Flow_1qrzvck</bpmn:incoming>
+      <bpmn:outgoing>Flow_0pxcexq</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1yopwof" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:endEvent id="StorungBehobenEndEvent4" name="Störung behoben">
+      <bpmn:incoming>Flow_0pxcexq</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_15nzck0" sourceRef="Gateway_0samvxh" targetRef="LosungDiagnostizierenTask" />
+    <bpmn:sequenceFlow id="Flow_1ygcly6" sourceRef="ZuDiagnostizierendeStorungsmeldungErhaltenStartEvent" targetRef="Gateway_0samvxh" />
+    <bpmn:sequenceFlow id="Flow_0eyniot" sourceRef="LosungUberarbeitenMeldungErhaltenEvent1" targetRef="Gateway_0samvxh" />
+    <bpmn:sequenceFlow id="Flow_0xbltek" sourceRef="LosungDiagnostizierenTask" targetRef="ChangeErforderlichGateway1" />
+    <bpmn:sequenceFlow id="JaSequenceFlow4" name="Ja" sourceRef="ChangeErforderlichGateway1" targetRef="StorungsmeldungAlsRfCEskaliertEndEvent1" />
+    <bpmn:sequenceFlow id="NeinSequenceFlow4" name="Nein" sourceRef="ChangeErforderlichGateway1" targetRef="Gateway_1dg5ore" />
+    <bpmn:sequenceFlow id="Flow_1qrzvck" sourceRef="Gateway_1dg5ore" targetRef="LosungAkzeptiertEvent1" />
+    <bpmn:sequenceFlow id="Flow_0sil779" sourceRef="Gateway_1dg5ore" targetRef="LosungUberarbeitenMeldungErhaltenEvent1" />
+    <bpmn:sequenceFlow id="Flow_0pxcexq" sourceRef="LosungAkzeptiertEvent1" targetRef="StorungBehobenEndEvent4" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_Incident_Management">
+      <bpmndi:BPMNShape id="Participant_18t20if_di" bpmnElement="ProzessportalParticipant" isHorizontal="true">
+        <dc:Bounds x="610" y="1315" width="1800" height="665" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0zgp84e_di" bpmnElement="PPServiceDeskLane" isHorizontal="true" bioc:stroke="#8e24aa" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#8e24aa">
+        <dc:Bounds x="640" y="1825" width="1770" height="155" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1vvnvk1_di" bpmnElement="AutomatischLane" isHorizontal="true">
+        <dc:Bounds x="640" y="1595" width="1770" height="230" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1vt0rnc_di" bpmnElement="PP2ndLevelSupportLane" isHorizontal="true" bioc:stroke="#fb8c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#fb8c00">
+        <dc:Bounds x="640" y="1473" width="1770" height="122" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_00pg4hc_di" bpmnElement="BenutzerLane" isHorizontal="true" bioc:stroke="#1e88e5" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#1e88e5">
+        <dc:Bounds x="640" y="1315" width="1770" height="158" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0cgu3rb_di" bpmnElement="Flow_0cgu3rb">
+        <di:waypoint x="2280" y="1665" />
+        <di:waypoint x="2332" y="1665" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1poqfpg_di" bpmnElement="JaSequenceFlow2" bioc:stroke="#000" bioc:fill="#fff">
+        <di:waypoint x="2135" y="1665" />
+        <di:waypoint x="2180" y="1665" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2142" y="1647" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1whffa6_di" bpmnElement="Flow_1whffa6">
+        <di:waypoint x="1865" y="1405" />
+        <di:waypoint x="1930" y="1405" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1s4lt25_di" bpmnElement="Flow_1s4lt25">
+        <di:waypoint x="1370" y="1665" />
+        <di:waypoint x="1410" y="1665" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_126o88o_di" bpmnElement="Flow_126o88o">
+        <di:waypoint x="1890" y="1765" />
+        <di:waypoint x="1930" y="1765" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14pd7hu_di" bpmnElement="JaSequenceFlow" bioc:stroke="#000" bioc:fill="#fff">
+        <di:waypoint x="1750" y="1690" />
+        <di:waypoint x="1750" y="1765" />
+        <di:waypoint x="1790" y="1765" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1724" y="1697" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_180r3ck_di" bpmnElement="Flow_180r3ck">
+        <di:waypoint x="1670" y="1535" />
+        <di:waypoint x="1690" y="1535" />
+        <di:waypoint x="1690" y="1665" />
+        <di:waypoint x="1725" y="1665" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0tkg7bi_di" bpmnElement="Flow_0tkg7bi">
+        <di:waypoint x="1510" y="1665" />
+        <di:waypoint x="1540" y="1665" />
+        <di:waypoint x="1540" y="1535" />
+        <di:waypoint x="1570" y="1535" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1en3knz_di" bpmnElement="Flow_1en3knz">
+        <di:waypoint x="2030" y="1765" />
+        <di:waypoint x="2092" y="1765" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0s8rcaf_di" bpmnElement="Flow_0s8rcaf">
+        <di:waypoint x="775" y="1665" />
+        <di:waypoint x="825" y="1665" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_00ru07g_di" bpmnElement="Flow_00ru07g">
+        <di:waypoint x="875" y="1665" />
+        <di:waypoint x="945" y="1665" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1qldan3_di" bpmnElement="NeinSequenceFlow1" bioc:stroke="#000" bioc:fill="#fff">
+        <di:waypoint x="2110" y="1640" />
+        <di:waypoint x="2110" y="1335" />
+        <di:waypoint x="970" y="1335" />
+        <di:waypoint x="970" y="1640" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2118" y="1610" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14832ug_di" bpmnElement="NeinSequenceFlow" bioc:stroke="#000" bioc:fill="#fff">
+        <di:waypoint x="1225" y="1665" />
+        <di:waypoint x="1270" y="1665" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1228" y="1647" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0a5bddm_di" bpmnElement="Flow_0a5bddm">
+        <di:waypoint x="995" y="1665" />
+        <di:waypoint x="1010" y="1665" />
+        <di:waypoint x="1010" y="1900" />
+        <di:waypoint x="1030" y="1900" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16k4vyx_di" bpmnElement="Flow_16k4vyx">
+        <di:waypoint x="1130" y="1900" />
+        <di:waypoint x="1150" y="1900" />
+        <di:waypoint x="1150" y="1665" />
+        <di:waypoint x="1175" y="1665" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0pw66r6_di" bpmnElement="NeinSequenceFlow2" bioc:stroke="#000" bioc:fill="#fff">
+        <di:waypoint x="1775" y="1665" />
+        <di:waypoint x="1840" y="1665" />
+        <di:waypoint x="1840" y="1430" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1788" y="1647" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0mddtig_di" bpmnElement="Flow_0mddtig">
+        <di:waypoint x="775" y="1405" />
+        <di:waypoint x="850" y="1405" />
+        <di:waypoint x="850" y="1640" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1y6z3ev_di" bpmnElement="JaSequenceFlow1">
+        <di:waypoint x="1200" y="1640" />
+        <di:waypoint x="1200" y="1405" />
+        <di:waypoint x="1815" y="1405" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1174" y="1608" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0axoxrc_di" bpmnElement="Flow_0axoxrc">
+        <di:waypoint x="2030" y="1405" />
+        <di:waypoint x="2050" y="1405" />
+        <di:waypoint x="2050" y="1665" />
+        <di:waypoint x="2085" y="1665" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StorungsmeldungErfasstStartEvent" bioc:stroke="#000" bioc:fill="#fff">
+        <dc:Bounds x="739" y="1387" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="714" y="1430" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0558kci_di" bpmnElement="LosungGefundenGateway" isMarkerVisible="true" bioc:stroke="#000" bioc:fill="#fff">
+        <dc:Bounds x="1175" y="1640" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1174" y="1700" width="52" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0xvnwh7_di" bpmnElement="Gateway_0xvnwh7" isMarkerVisible="true">
+        <dc:Bounds x="945" y="1640" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1syzqn9_di" bpmnElement="Gateway_1syzqn9" isMarkerVisible="true">
+        <dc:Bounds x="825" y="1640" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0mx17rp_di" bpmnElement="StorungsmeldungAusEMErhaltenStartEvent" bioc:stroke="#000" bioc:fill="#fff">
+        <dc:Bounds x="739" y="1647" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="713" y="1610" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0ui14c8_di" bpmnElement="ChangeErforderlichGateway" isMarkerVisible="true" bioc:stroke="#000" bioc:fill="#fff">
+        <dc:Bounds x="1725" y="1640" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1719" y="1603" width="62" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0yifn3j_di" bpmnElement="Gateway_0yifn3j" isMarkerVisible="true">
+        <dc:Bounds x="1815" y="1380" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0xayqlz_di" bpmnElement="LosungAkzeptabelGateway" isMarkerVisible="true" bioc:stroke="#000" bioc:fill="#fff">
+        <dc:Bounds x="2085" y="1640" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2080" y="1700" width="60" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1dpbqo8_di" bpmnElement="StorungBehobenEndEvent" bioc:stroke="#000" bioc:fill="#fff">
+        <dc:Bounds x="2332" y="1647" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2308" y="1690" width="85" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_11znq2c_di" bpmnElement="StorungsmeldungAlsRfCEskaliertEndEvent" bioc:stroke="#000" bioc:fill="#fff">
+        <dc:Bounds x="2092" y="1747" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2066" y="1790" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_18fs4wo_di" bpmnElement="StorungKategorisierenPriorisierenUndDiagnostizierenTask">
+        <dc:Bounds x="1030" y="1860" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_08a8fwp_di" bpmnElement="Zustandigen2ndLevelSupportBestimmenTask">
+        <dc:Bounds x="1270" y="1625" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_02gx53l_di" bpmnElement="BenutzerUberEskalationInformierenTask">
+        <dc:Bounds x="1410" y="1625" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0g1vu6a_di" bpmnElement="StorungDiagnostizierenTask">
+        <dc:Bounds x="1570" y="1495" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0n4cck0_di" bpmnElement="RfCErstellenTask">
+        <dc:Bounds x="1790" y="1725" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0mfh0vi_di" bpmnElement="UberRfCErstellungInformierenTask">
+        <dc:Bounds x="1930" y="1725" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_09vilu4_di" bpmnElement="LosungPrufenTask">
+        <dc:Bounds x="1930" y="1365" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_10utofo_di" bpmnElement="UberAkzeptierteLosungInformierenTask">
+        <dc:Bounds x="2180" y="1625" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_0gzj01f_di" bpmnElement="ServiceDesk1stLevelParticipant" isHorizontal="true" bioc:stroke="#8e24aa" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#8e24aa">
+        <dc:Bounds x="610" y="2050" width="1140" height="380" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1y7wff0_di" bpmnElement="SDProzessportalLane" isHorizontal="true">
+        <dc:Bounds x="640" y="2275" width="1110" height="155" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_07ghued_di" bpmnElement="SDSonstigesLane" isHorizontal="true">
+        <dc:Bounds x="640" y="2050" width="1110" height="225" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0qky8ug_di" bpmnElement="Flow_0qky8ug">
+        <di:waypoint x="1588" y="2200" />
+        <di:waypoint x="1662" y="2200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1v0f9zt_di" bpmnElement="Flow_1v0f9zt">
+        <di:waypoint x="1398" y="2100" />
+        <di:waypoint x="1472" y="2100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1b50qk8_di" bpmnElement="Flow_1b50qk8">
+        <di:waypoint x="950" y="2218" />
+        <di:waypoint x="950" y="2325" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15j0oxx_di" bpmnElement="Flow_15j0oxx">
+        <di:waypoint x="975" y="2350" />
+        <di:waypoint x="1010" y="2350" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1bjbfin_di" bpmnElement="Flow_1bjbfin">
+        <di:waypoint x="880" y="2350" />
+        <di:waypoint x="925" y="2350" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0820tiv_di" bpmnElement="Flow_0820tiv">
+        <di:waypoint x="728" y="2200" />
+        <di:waypoint x="760" y="2200" />
+        <di:waypoint x="760" y="2350" />
+        <di:waypoint x="780" y="2350" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1jg0jrw_di" bpmnElement="Flow_1jg0jrw">
+        <di:waypoint x="1205" y="2200" />
+        <di:waypoint x="1552" y="2200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1unzzzh_di" bpmnElement="Flow_1unzzzh">
+        <di:waypoint x="1180" y="2225" />
+        <di:waypoint x="1180" y="2310" />
+        <di:waypoint x="1232" y="2310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_088m2zw_di" bpmnElement="Flow_088m2zw">
+        <di:waypoint x="1268" y="2310" />
+        <di:waypoint x="1310" y="2310" />
+        <di:waypoint x="1310" y="2410" />
+        <di:waypoint x="950" y="2410" />
+        <di:waypoint x="950" y="2375" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0xvzo6s_di" bpmnElement="Flow_0xvzo6s">
+        <di:waypoint x="1110" y="2350" />
+        <di:waypoint x="1130" y="2350" />
+        <di:waypoint x="1130" y="2200" />
+        <di:waypoint x="1155" y="2200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1vnrdwm_di" bpmnElement="Flow_1vnrdwm">
+        <di:waypoint x="1180" y="2175" />
+        <di:waypoint x="1180" y="2100" />
+        <di:waypoint x="1362" y="2100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_0c8ttxe_di" bpmnElement="StorungErfassenTask">
+        <dc:Bounds x="780" y="2310" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_06aa9oh_di" bpmnElement="Gateway_06aa9oh" isMarkerVisible="true">
+        <dc:Bounds x="925" y="2325" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0v0sfw9_di" bpmnElement="StorungKategorisierenPriorisierenUndDiagnostizierenTask1">
+        <dc:Bounds x="1010" y="2310" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_065kahk_di" bpmnElement="ZuKlassifizierendeStorungsmeldungErhaltenStartEvent" bioc:stroke="#000" bioc:fill="#fff">
+        <dc:Bounds x="932" y="2182" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="907" y="2119" width="87" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1he05np_di" bpmnElement="TelefonischeStorungsmeldungErhaltenStartEvent" bioc:stroke="#000" bioc:fill="#fff">
+        <dc:Bounds x="692" y="2182" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="667" y="2225" width="87" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1rdwnbj_di" bpmnElement="Gateway_0ce4so2">
+        <dc:Bounds x="1155" y="2175" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1be9cnw_di" bpmnElement="LosungUberarbeitenMeldungErhaltenEvent">
+        <dc:Bounds x="1232" y="2292" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1207" y="2330" width="86" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0lr1b58_di" bpmnElement="RfCInformationenErhaltenEvent">
+        <dc:Bounds x="1362" y="2082" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1335" y="2125" width="90" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ks0bm2_di" bpmnElement="StorungInRfCEskaliertEndEvent">
+        <dc:Bounds x="1472" y="2082" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1454" y="2125" width="73" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ykzogm_di" bpmnElement="LosungAkzeptiertEvent">
+        <dc:Bounds x="1552" y="2182" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1526" y="2225" width="88" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_17gc77o_di" bpmnElement="StorungBehobenEndEvent1">
+        <dc:Bounds x="1662" y="2182" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1638" y="2225" width="85" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_0y2vjqp_di" bpmnElement="BenutzerParticipant" isHorizontal="true" bioc:stroke="#1e88e5" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#1e88e5">
+        <dc:Bounds x="610" y="800" width="1290" height="440" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0r5zj5b_di" bpmnElement="UserProzessportalLane" isHorizontal="true">
+        <dc:Bounds x="640" y="1105" width="1260" height="135" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_141i8ci_di" bpmnElement="UserSonstigesLane" isHorizontal="true">
+        <dc:Bounds x="640" y="800" width="1260" height="305" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1eyxpbl_di" bpmnElement="Flow_1eyxpbl">
+        <di:waypoint x="1220" y="945" />
+        <di:waypoint x="1220" y="880" />
+        <di:waypoint x="1362" y="880" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1mkr38v_di" bpmnElement="Flow_1mkr38v">
+        <di:waypoint x="1398" y="880" />
+        <di:waypoint x="1472" y="880" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1rpqeko_di" bpmnElement="Flow_1rpqeko">
+        <di:waypoint x="1220" y="995" />
+        <di:waypoint x="1220" y="1060" />
+        <di:waypoint x="1282" y="1060" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1t9udr9_di" bpmnElement="Flow_1t9udr9">
+        <di:waypoint x="1245" y="970" />
+        <di:waypoint x="1472" y="970" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1wdeofe_di" bpmnElement="Flow_1wdeofe">
+        <di:waypoint x="1155" y="970" />
+        <di:waypoint x="1195" y="970" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1h8i2os_di" bpmnElement="Flow_1h8i2os">
+        <di:waypoint x="1070" y="970" />
+        <di:waypoint x="1105" y="970" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1nxvpzy_di" bpmnElement="Flow_1nxvpzy">
+        <di:waypoint x="945" y="970" />
+        <di:waypoint x="970" y="970" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16fk4s3_di" bpmnElement="Flow_16fk4s3">
+        <di:waypoint x="860" y="970" />
+        <di:waypoint x="895" y="970" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_07x01c9_di" bpmnElement="Flow_07x01c9">
+        <di:waypoint x="728" y="970" />
+        <di:waypoint x="760" y="970" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0pkcm7u_di" bpmnElement="Flow_0pkcm7u">
+        <di:waypoint x="1070" y="1170" />
+        <di:waypoint x="1130" y="1170" />
+        <di:waypoint x="1130" y="995" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1c5h5q4_di" bpmnElement="ProzessportalSequenceFlow" bioc:stroke="#000" bioc:fill="#fff">
+        <di:waypoint x="920" y="995" />
+        <di:waypoint x="920" y="1170" />
+        <di:waypoint x="970" y="1170" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="876" y="1183" width="68" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0emh99m_di" bpmnElement="Flow_0emh99m">
+        <di:waypoint x="1490" y="988" />
+        <di:waypoint x="1490" y="1170" />
+        <di:waypoint x="1570" y="1170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15ygnwj_di" bpmnElement="NeinSequenceFlow3">
+        <di:waypoint x="1740" y="1145" />
+        <di:waypoint x="1740" y="820" />
+        <di:waypoint x="1130" y="820" />
+        <di:waypoint x="1130" y="945" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1748" y="1106" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1shued3_di" bpmnElement="Flow_1shued3">
+        <di:waypoint x="1670" y="1170" />
+        <di:waypoint x="1715" y="1170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0b021gs_di" bpmnElement="JaSequenceFlow3">
+        <di:waypoint x="1765" y="1170" />
+        <di:waypoint x="1812" y="1170" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1774" y="1152" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_1vk22ey_di" bpmnElement="StorungErfassenTask1">
+        <dc:Bounds x="970" y="1130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0krjx1y_di" bpmnElement="LosungPrufenTask1">
+        <dc:Bounds x="1570" y="1130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1f8kwj7_di" bpmnElement="LosungAkzeptabelGateway1" isMarkerVisible="true">
+        <dc:Bounds x="1715" y="1145" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1710" y="1202" width="60" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_182xix7_di" bpmnElement="StorungBehobenEndEvent2">
+        <dc:Bounds x="1812" y="1152" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1788" y="1195" width="85" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ba1gwy_di" bpmnElement="NichtSelbstBehebbareStorungErkanntStartEvent" bioc:stroke="#000" bioc:fill="#fff">
+        <dc:Bounds x="692" y="952" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="670" y="995" width="80" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_17hv69g_di" bpmnElement="Gateway_17hv69g" isMarkerVisible="true">
+        <dc:Bounds x="895" y="945" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1xfebl0_di" bpmnElement="FurKanalDerKommunikationEntscheidenTask">
+        <dc:Bounds x="760" y="930" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_04r2mcs_di" bpmnElement="StorungTelefonischMeldenTask">
+        <dc:Bounds x="970" y="930" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_100hoof_di" bpmnElement="Gateway_100hoof" isMarkerVisible="true">
+        <dc:Bounds x="1105" y="945" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_08e100h_di" bpmnElement="Gateway_0xk5ds3">
+        <dc:Bounds x="1195" y="945" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0pdl5mv_di" bpmnElement="ZuPrufendeLosungErhaltenEvent" bioc:stroke="#000000" bioc:fill="#ffffff" color:background-color="#ffffff" color:border-color="#000000">
+        <dc:Bounds x="1472" y="952" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1450" y="915" width="79" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_00bkb6x_di" bpmnElement="EskalationsInformationenErhaltenEvent">
+        <dc:Bounds x="1282" y="1042" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1266" y="992" width="68" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ld5k1i_di" bpmnElement="RfCInformationenErhaltenEvent1">
+        <dc:Bounds x="1362" y="862" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1335" y="825" width="90" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_04yyp4s_di" bpmnElement="StorungInRfCEskaliertEndEvent1">
+        <dc:Bounds x="1472" y="862" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1454" y="825" width="73" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_1lrpw86_di" bpmnElement="IncidentManagementProzessParticipant" isHorizontal="true">
+        <dc:Bounds x="610" y="160" width="1100" height="480" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_03mx477_di" bpmnElement="StratBenutzerLane" isHorizontal="true" bioc:stroke="#1e88e5" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#1e88e5">
+        <dc:Bounds x="640" y="160" width="1070" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1pugka3_di" bpmnElement="StratServiceDeskLane" isHorizontal="true" bioc:stroke="#fb8c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#fb8c00">
+        <dc:Bounds x="640" y="280" width="1070" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_086no4v_di" bpmnElement="Strat2ndLevelSupportLane" isHorizontal="true" bioc:stroke="#e53935" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#e53935">
+        <dc:Bounds x="640" y="400" width="1070" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_03fhkyl_di" bpmnElement="StratAutomatischLane" isHorizontal="true">
+        <dc:Bounds x="640" y="520" width="1070" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1l792sh_di" bpmnElement="Flow_1l792sh">
+        <di:waypoint x="728" y="220" />
+        <di:waypoint x="780" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ykb5ax_di" bpmnElement="Flow_1ykb5ax">
+        <di:waypoint x="880" y="220" />
+        <di:waypoint x="920" y="220" />
+        <di:waypoint x="920" y="315" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ez5av9_di" bpmnElement="Flow_1ez5av9">
+        <di:waypoint x="945" y="340" />
+        <di:waypoint x="990" y="340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0es2n7b_di" bpmnElement="Flow_0es2n7b">
+        <di:waypoint x="728" y="580" />
+        <di:waypoint x="920" y="580" />
+        <di:waypoint x="920" y="365" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0wg45z2_di" bpmnElement="Flow_0wg45z2">
+        <di:waypoint x="1090" y="340" />
+        <di:waypoint x="1120" y="340" />
+        <di:waypoint x="1120" y="580" />
+        <di:waypoint x="1150" y="580" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1q0bbd4_di" bpmnElement="Flow_1q0bbd4">
+        <di:waypoint x="1250" y="580" />
+        <di:waypoint x="1280" y="580" />
+        <di:waypoint x="1280" y="460" />
+        <di:waypoint x="1310" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0nx25px_di" bpmnElement="Flow_0nx25px">
+        <di:waypoint x="1410" y="460" />
+        <di:waypoint x="1440" y="460" />
+        <di:waypoint x="1440" y="220" />
+        <di:waypoint x="1470" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0k0nu8q_di" bpmnElement="Flow_0k0nu8q">
+        <di:waypoint x="1570" y="220" />
+        <di:waypoint x="1632" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_0qzyusr_di" bpmnElement="StorungErkanntStartEvent">
+        <dc:Bounds x="692" y="202" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="670" y="245" width="80" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1913tpb_di" bpmnElement="StorungErfassenTask2">
+        <dc:Bounds x="780" y="180" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1tcrikj_di" bpmnElement="Gateway_1tcrikj" isMarkerVisible="true">
+        <dc:Bounds x="895" y="315" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_17lfg46_di" bpmnElement="StorungKategorisierenPriorisierenUndDiagnostizierenTask2">
+        <dc:Bounds x="990" y="300" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_19xzvmg_di" bpmnElement="StorungDiagnostizierenTask1">
+        <dc:Bounds x="1310" y="420" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0wj5uox_di" bpmnElement="LosungPrufenTask2">
+        <dc:Bounds x="1470" y="180" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_195g6z3_di" bpmnElement="StorungBehobenEndEvent3">
+        <dc:Bounds x="1632" y="202" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1608" y="245" width="85" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ukl2io_di" bpmnElement="Zustandigen2ndLevelSupportBestimmenTask1">
+        <dc:Bounds x="1150" y="540" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1kdhktv_di" bpmnElement="StorungsmeldungAusEMErhaltenStartEvent1">
+        <dc:Bounds x="692" y="562" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="667" y="605" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_0zubu0o_di" bpmnElement="StrategischesProzessmodellParticipant" isHorizontal="true" bioc:stroke="#43a047" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#43a047">
+        <dc:Bounds x="610" y="80" width="1100" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_1xuy924_di" bpmnElement="KollaborationsdiagrammParticipant" isHorizontal="true" bioc:stroke="#43a047" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#43a047">
+        <dc:Bounds x="610" y="720" width="2180" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_1ddq8pw_di" bpmnElement="N2ndLevelSupportParticipant" isHorizontal="true" bioc:stroke="#fb8c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#fb8c00">
+        <dc:Bounds x="1970" y="800" width="820" height="440" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_18rtlde_di" bpmnElement="N2ndSonstigesLane" isHorizontal="true">
+        <dc:Bounds x="2000" y="800" width="790" height="315" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0cx41qx_di" bpmnElement="N2ndProzessportalLane" isHorizontal="true">
+        <dc:Bounds x="2000" y="1115" width="790" height="125" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0pxcexq_di" bpmnElement="Flow_0pxcexq">
+        <di:waypoint x="2668" y="975" />
+        <di:waypoint x="2712" y="975" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0sil779_di" bpmnElement="Flow_0sil779">
+        <di:waypoint x="2500" y="950" />
+        <di:waypoint x="2500" y="875" />
+        <di:waypoint x="2572" y="875" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1qrzvck_di" bpmnElement="Flow_1qrzvck">
+        <di:waypoint x="2525" y="975" />
+        <di:waypoint x="2632" y="975" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1tb5zty_di" bpmnElement="NeinSequenceFlow4">
+        <di:waypoint x="2425" y="975" />
+        <di:waypoint x="2475" y="975" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2439" y="957" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0g9eymo_di" bpmnElement="JaSequenceFlow4">
+        <di:waypoint x="2400" y="1000" />
+        <di:waypoint x="2400" y="1075" />
+        <di:waypoint x="2482" y="1075" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2436" y="1057" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0xbltek_di" bpmnElement="Flow_0xbltek">
+        <di:waypoint x="2330" y="1180" />
+        <di:waypoint x="2350" y="1180" />
+        <di:waypoint x="2350" y="975" />
+        <di:waypoint x="2375" y="975" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0eyniot_di" bpmnElement="Flow_0eyniot">
+        <di:waypoint x="2608" y="875" />
+        <di:waypoint x="2660" y="875" />
+        <di:waypoint x="2660" y="830" />
+        <di:waypoint x="2150" y="830" />
+        <di:waypoint x="2150" y="950" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ygcly6_di" bpmnElement="Flow_1ygcly6">
+        <di:waypoint x="2088" y="975" />
+        <di:waypoint x="2125" y="975" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15nzck0_di" bpmnElement="Flow_15nzck0">
+        <di:waypoint x="2175" y="975" />
+        <di:waypoint x="2200" y="975" />
+        <di:waypoint x="2200" y="1180" />
+        <di:waypoint x="2230" y="1180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_0nnf8zc_di" bpmnElement="ZuDiagnostizierendeStorungsmeldungErhaltenStartEvent">
+        <dc:Bounds x="2052" y="957" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2026" y="894" width="87" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0samvxh_di" bpmnElement="Gateway_0samvxh" isMarkerVisible="true">
+        <dc:Bounds x="2125" y="950" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1k0igjy_di" bpmnElement="LosungDiagnostizierenTask">
+        <dc:Bounds x="2230" y="1140" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0irpctr_di" bpmnElement="ChangeErforderlichGateway1" isMarkerVisible="true">
+        <dc:Bounds x="2375" y="950" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2369" y="913" width="62" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1difesh_di" bpmnElement="Gateway_1dg5ore">
+        <dc:Bounds x="2475" y="950" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_03p6hgv_di" bpmnElement="StorungsmeldungAlsRfCEskaliertEndEvent1">
+        <dc:Bounds x="2482" y="1057" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2457" y="1023" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0c5xg8s_di" bpmnElement="LosungUberarbeitenMeldungErhaltenEvent1">
+        <dc:Bounds x="2572" y="857" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2597" y="880" width="86" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_02ldtzn_di" bpmnElement="LosungAkzeptiertEvent1">
+        <dc:Bounds x="2632" y="957" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2606" y="933" width="88" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0wvybme_di" bpmnElement="StorungBehobenEndEvent4">
+        <dc:Bounds x="2712" y="957" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2688" y="1000" width="85" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_01tyu4w_di" bpmnElement="EventManagementEMSystemParticipant" isHorizontal="true">
+        <dc:Bounds x="180" y="1730" width="300" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_0s2vvou_di" bpmnElement="ITSMChangeManagementSystemParticipant" isHorizontal="true">
+        <dc:Bounds x="1870" y="2190" width="300" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0rdidzr_di" bpmnElement="StorungsinformationenMessageFlow" bioc:stroke="#e53935" color:border-color="#e53935">
+        <di:waypoint x="1020" y="1210" />
+        <di:waypoint x="1020" y="1250" />
+        <di:waypoint x="757" y="1250" />
+        <di:waypoint x="757" y="1387" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="776" y="1256" width="67" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0z7wi0d_di" bpmnElement="TelefonanrufMitStorungsinformationenMessageFlow" bioc:stroke="#8e24aa" color:border-color="#8e24aa">
+        <di:waypoint x="1020" y="930" />
+        <di:waypoint x="1020" y="790" />
+        <di:waypoint x="160" y="790" />
+        <di:waypoint x="160" y="2040" />
+        <di:waypoint x="710" y="2040" />
+        <di:waypoint x="710" y="2182" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="487" y="2050" width="85" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0rw51s4_di" bpmnElement="StorungsinformationenMessageFlow1" bioc:stroke="#e53935" color:border-color="#e53935">
+        <di:waypoint x="830" y="2310" />
+        <di:waypoint x="830" y="1990" />
+        <di:waypoint x="690" y="1990" />
+        <di:waypoint x="690" y="1405" />
+        <di:waypoint x="739" y="1405" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="746" y="1996" width="67" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0g5ag54_di" bpmnElement="AufgabeMitInformationenMessageFlow" bioc:stroke="#8e24aa" color:border-color="#8e24aa">
+        <di:waypoint x="1080" y="1940" />
+        <di:waypoint x="1080" y="2310" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1006" y="2006" width="68" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11o492l_di" bpmnElement="KategoriePrioritatUndLosungMessageFlow" bioc:stroke="#e53935" color:border-color="#e53935">
+        <di:waypoint x="1100" y="2310" />
+        <di:waypoint x="1100" y="1940" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1118" y="1993" width="63" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_17y1wjm_di" bpmnElement="AutomatischeStorungsmeldungMessageFlow" bioc:stroke="#e53935" color:border-color="#e53935">
+        <di:waypoint x="480" y="1760" />
+        <di:waypoint x="757" y="1760" />
+        <di:waypoint x="757" y="1683" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="501" y="1726" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10ejkym_di" bpmnElement="AufgabeMitInformationenMessageFlow1" bioc:stroke="#8e24aa" color:border-color="#8e24aa">
+        <di:waypoint x="1050" y="1940" />
+        <di:waypoint x="1050" y="1990" />
+        <di:waypoint x="890" y="1990" />
+        <di:waypoint x="890" y="2200" />
+        <di:waypoint x="932" y="2200" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="906" y="1996" width="68" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1y8g012_di" bpmnElement="InformationenUberErstelltenRfCMessageFlow" bioc:stroke="#8e24aa" color:border-color="#8e24aa">
+        <di:waypoint x="1980" y="1805" />
+        <di:waypoint x="1980" y="1990" />
+        <di:waypoint x="1380" y="1990" />
+        <di:waypoint x="1380" y="2082" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1386" y="2000" width="70" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1xrwpky_di" bpmnElement="StatusLosungAkzeptiertMessageFlow" bioc:stroke="#8e24aa" color:border-color="#8e24aa">
+        <di:waypoint x="2230" y="1705" />
+        <di:waypoint x="2230" y="2010" />
+        <di:waypoint x="1570" y="2010" />
+        <di:waypoint x="1570" y="2182" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1583" y="2016" width="75" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1a3ye4c_di" bpmnElement="FeedbackZuNichtAkzeptierterLosungMessageFlow" bioc:stroke="#8e24aa" color:border-color="#8e24aa">
+        <di:waypoint x="1130" y="1930" />
+        <di:waypoint x="1250" y="1930" />
+        <di:waypoint x="1250" y="2292" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1257" y="2000" width="86" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0awiq6x_di" bpmnElement="EskalationsinformationenMessageFlow" bioc:stroke="#1e88e5" color:border-color="#1e88e5">
+        <di:waypoint x="1460" y="1625" />
+        <di:waypoint x="1460" y="1310" />
+        <di:waypoint x="1300" y="1310" />
+        <di:waypoint x="1300" y="1078" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1221" y="1276" width="67" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ejz2ns_di" bpmnElement="InformationenUberRfCMessageFlow" bioc:stroke="#1e88e5" color:border-color="#1e88e5">
+        <di:waypoint x="1930" y="1740" />
+        <di:waypoint x="1900" y="1740" />
+        <di:waypoint x="1900" y="1300" />
+        <di:waypoint x="1380" y="1300" />
+        <di:waypoint x="1380" y="898" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1387" y="1266" width="68" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1fqetwu_di" bpmnElement="AufgabeMitInformationenMessageFlow2" bioc:stroke="#1e88e5" color:border-color="#1e88e5">
+        <di:waypoint x="1950" y="1365" />
+        <di:waypoint x="1950" y="970" />
+        <di:waypoint x="1508" y="970" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1876" y="1250" width="68" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0uz79ds_di" bpmnElement="AkzeptiertOderFeedbackZuLosungMessageFlow" bioc:stroke="#e53935" color:border-color="#e53935">
+        <di:waypoint x="1620" y="1210" />
+        <di:waypoint x="1620" y="1290" />
+        <di:waypoint x="1910" y="1290" />
+        <di:waypoint x="1910" y="1375" />
+        <di:waypoint x="1930" y="1375" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1627" y="1244" width="75" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0cqrd52_di" bpmnElement="AufgabeMitInformationenMessageFlow3" bioc:stroke="#fb8c00" color:border-color="#fb8c00">
+        <di:waypoint x="1620" y="1495" />
+        <di:waypoint x="1620" y="1480" />
+        <di:waypoint x="2070" y="1480" />
+        <di:waypoint x="2070" y="993" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2076" y="1250" width="68" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_07wxb8y_di" bpmnElement="LosungUndoderRfCInformationenMessageFlow" bioc:stroke="#e53935" color:border-color="#e53935">
+        <di:waypoint x="2280" y="1220" />
+        <di:waypoint x="2280" y="1520" />
+        <di:waypoint x="1670" y="1520" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2185" y="1250" width="90" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15tpvy6_di" bpmnElement="FeedbackZuNichtAkzeptierterLosungMessageFlow1" bioc:stroke="#fb8c00" color:border-color="#fb8c00">
+        <di:waypoint x="1670" y="1560" />
+        <di:waypoint x="2590" y="1560" />
+        <di:waypoint x="2590" y="893" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2497" y="1244" width="86" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ck0v6j_di" bpmnElement="StatusLosungAkzeptiertMessageFlow1" bioc:stroke="#fb8c00" color:border-color="#fb8c00">
+        <di:waypoint x="2230" y="1625" />
+        <di:waypoint x="2230" y="1610" />
+        <di:waypoint x="2650" y="1610" />
+        <di:waypoint x="2650" y="993" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2662" y="1250" width="75" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_136njw3_di" bpmnElement="RfCTitelBeschreibungUndBegrundungMessageFlow">
+        <di:waypoint x="1840" y="1805" />
+        <di:waypoint x="1840" y="2070" />
+        <di:waypoint x="1930" y="2070" />
+        <di:waypoint x="1930" y="2190" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1839" y="2080" width="81" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0b9n171_di" bpmnElement="RfCIdentifikatorOderFehlermeldungMessageFlow" bioc:stroke="#e53935" color:border-color="#e53935">
+        <di:waypoint x="1950" y="2190" />
+        <di:waypoint x="1950" y="2050" />
+        <di:waypoint x="1860" y="2050" />
+        <di:waypoint x="1860" y="1805" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1959" y="2080" width="81" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

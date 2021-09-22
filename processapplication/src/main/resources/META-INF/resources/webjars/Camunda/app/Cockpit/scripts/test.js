@@ -1,0 +1,1 @@
+console.log('test from resources/webjars/Camunda/app/Cockpit/scripts/test.js');
