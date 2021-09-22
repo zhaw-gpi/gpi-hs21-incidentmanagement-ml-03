@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1cnoelj" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.10.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1cnoelj" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.10.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
   <bpmn:collaboration id="Collaboration_Incident_Management">
     <bpmn:participant id="ProzessportalParticipant" name="Prozessportal" processRef="IncidentManagementProcess" />
     <bpmn:participant id="ServiceDesk1stLevelParticipant" name="Service Desk (1st Level)" processRef="ServiceDeskProcess" />
@@ -31,7 +31,7 @@
     <bpmn:messageFlow id="RfCTitelBeschreibungUndBegrundungMessageFlow" name="RfC-Titel, -Beschreibung und -Begründung" sourceRef="RfCErstellenTask" targetRef="ITSMChangeManagementSystemParticipant" />
     <bpmn:messageFlow id="RfCIdentifikatorOderFehlermeldungMessageFlow" name="RfC-Identifikator" sourceRef="ITSMChangeManagementSystemParticipant" targetRef="RfCErstellenTask" />
   </bpmn:collaboration>
-  <bpmn:process id="IncidentManagementProcess" name="Störungsmanagement-Prozess" isExecutable="false">
+  <bpmn:process id="IncidentManagementProcess" name="Störungsmanagement-Prozess" isExecutable="true">
     <bpmn:laneSet id="LaneSet_1vfjj35">
       <bpmn:lane id="BenutzerLane" name="Benutzer">
         <bpmn:flowNodeRef>StorungsmeldungErfasstStartEvent</bpmn:flowNodeRef>
@@ -50,11 +50,11 @@
         <bpmn:flowNodeRef>LosungAkzeptabelGateway</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>StorungBehobenEndEvent</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>StorungsmeldungAlsRfCEskaliertEndEvent</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Zustandigen2ndLevelSupportBestimmenTask</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>BenutzerUberEskalationInformierenTask</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>RfCErstellenTask</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>UberRfCErstellungInformierenTask</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>UberAkzeptierteLosungInformierenTask</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Zustandigen2ndLevelSupportBestimmenTask</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="PPServiceDeskLane" name="Service Desk (1st Level)">
         <bpmn:flowNodeRef>StorungKategorisierenPriorisierenUndDiagnostizierenTask</bpmn:flowNodeRef>
@@ -137,12 +137,18 @@ PS: Auch wenn dies von einem Event Management-System kommt, soll jeweils ein Ben
       <bpmn:incoming>Flow_1en3knz</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_0axoxrc" sourceRef="LosungPrufenTask" targetRef="LosungAkzeptabelGateway" />
-    <bpmn:sequenceFlow id="JaSequenceFlow1" name="Ja" sourceRef="LosungGefundenGateway" targetRef="Gateway_0yifn3j" />
+    <bpmn:sequenceFlow id="JaSequenceFlow1" name="Ja" sourceRef="LosungGefundenGateway" targetRef="Gateway_0yifn3j">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!escalate_to_2nd_level}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0mddtig" sourceRef="StorungsmeldungErfasstStartEvent" targetRef="Gateway_1syzqn9" />
-    <bpmn:sequenceFlow id="NeinSequenceFlow2" name="Nein" sourceRef="ChangeErforderlichGateway" targetRef="Gateway_0yifn3j" />
+    <bpmn:sequenceFlow id="NeinSequenceFlow2" name="Nein" sourceRef="ChangeErforderlichGateway" targetRef="Gateway_0yifn3j">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${empty rfc_title}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_16k4vyx" sourceRef="StorungKategorisierenPriorisierenUndDiagnostizierenTask" targetRef="LosungGefundenGateway" />
     <bpmn:sequenceFlow id="Flow_0a5bddm" sourceRef="Gateway_0xvnwh7" targetRef="StorungKategorisierenPriorisierenUndDiagnostizierenTask" />
-    <bpmn:sequenceFlow id="NeinSequenceFlow" name="Nein" sourceRef="LosungGefundenGateway" targetRef="Zustandigen2ndLevelSupportBestimmenTask" />
+    <bpmn:sequenceFlow id="NeinSequenceFlow" name="Nein" sourceRef="LosungGefundenGateway" targetRef="Zustandigen2ndLevelSupportBestimmenTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${escalate_to_2nd_level}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="NeinSequenceFlow1" name="Nein" sourceRef="LosungAkzeptabelGateway" targetRef="Gateway_0xvnwh7">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!solution_accepted}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
@@ -151,7 +157,9 @@ PS: Auch wenn dies von einem Event Management-System kommt, soll jeweils ein Ben
     <bpmn:sequenceFlow id="Flow_1en3knz" sourceRef="UberRfCErstellungInformierenTask" targetRef="StorungsmeldungAlsRfCEskaliertEndEvent" />
     <bpmn:sequenceFlow id="Flow_0tkg7bi" sourceRef="BenutzerUberEskalationInformierenTask" targetRef="StorungDiagnostizierenTask" />
     <bpmn:sequenceFlow id="Flow_180r3ck" sourceRef="StorungDiagnostizierenTask" targetRef="ChangeErforderlichGateway" />
-    <bpmn:sequenceFlow id="JaSequenceFlow" name="Ja" sourceRef="ChangeErforderlichGateway" targetRef="RfCErstellenTask" />
+    <bpmn:sequenceFlow id="JaSequenceFlow" name="Ja" sourceRef="ChangeErforderlichGateway" targetRef="RfCErstellenTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!empty rfc_title}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_126o88o" sourceRef="RfCErstellenTask" targetRef="UberRfCErstellungInformierenTask" />
     <bpmn:sequenceFlow id="Flow_1s4lt25" sourceRef="Zustandigen2ndLevelSupportBestimmenTask" targetRef="BenutzerUberEskalationInformierenTask" />
     <bpmn:sequenceFlow id="Flow_1whffa6" sourceRef="Gateway_0yifn3j" targetRef="LosungPrufenTask" />
@@ -196,26 +204,17 @@ Je nachdem kann dies auch bedeuten, dass der Service-Desk-Mitarbeiter selbst ein
 
 
 Hier würde in der Realität der Mitarbeiter sicher auch unterstützt durch Know Errors Datenbank, Auflistung ähnlicher Incidents inkl. Lösung, der Möglichkeit diesen Incident mit anderen zu gruppieren, usw.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="category">sw.other</camunda:outputParameter>
+          <camunda:outputParameter name="priority">low</camunda:outputParameter>
+          <camunda:outputParameter name="escalate_to_2nd_level">${true}</camunda:outputParameter>
+          <camunda:outputParameter name="rfc_title" />
+          <camunda:outputParameter name="solution_accepted">${true}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_0a5bddm</bpmn:incoming>
       <bpmn:outgoing>Flow_16k4vyx</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:task id="Zustandigen2ndLevelSupportBestimmenTask" name="Zuständigen 2nd Level Support bestimmen">
-      <bpmn:documentation>Anforderungen
-===========
-Ermittlung über Entscheidungstabelle in DMN der zuständigen Benutzergruppe als Output in Prozessvariable responsible_group basierend auf Input der Prozessvariablen priority und category mit folgenden Regeln:
-- Alle High-Prio-Incidents geht an Benutzergruppe super-senior-cracks
-- Low- und Middle Hardware-Störungen gehen an hardware-team
-- Low- und Middle Betriebssystem-Störungen gehen an os-team
-- Middle Office 365-Störungen gehen an office-2nd-team
-- Low Office 365-Störungen gehen an office-1st-team
-- Low- und Middle übrige Software-Störungen gehen an beissen-die-hunde-team
-
-
-Weitere Hinweise
-=============
-Zugegebenermassen ist hier die Nutzung von DMN etwas gesucht, aber denkbar. In der Realität würde wohl entweder eher der Service Desk-Mitarbeiter den zuständigen 2nd-Level-Support bestimmen, oder über sonstige Regeln (z.B. basierend auf betroffenem Service der Service-Verantwortliche, usw.) oder über Machine Learning würde die Zuordnung vorgenommen.</bpmn:documentation>
-      <bpmn:incoming>NeinSequenceFlow</bpmn:incoming>
-      <bpmn:outgoing>Flow_1s4lt25</bpmn:outgoing>
     </bpmn:task>
     <bpmn:task id="BenutzerUberEskalationInformierenTask" name="Benutzer über Eskalation informieren">
       <bpmn:documentation>Anforderungen
@@ -337,6 +336,33 @@ Statt statisch eine Notification an servicedesk zu senden, würde diese stattdes
       <bpmn:incoming>JaSequenceFlow2</bpmn:incoming>
       <bpmn:outgoing>Flow_0cgu3rb</bpmn:outgoing>
     </bpmn:task>
+    <bpmn:scriptTask id="Zustandigen2ndLevelSupportBestimmenTask" name="Zuständigen 2nd Level Support bestimmen" scriptFormat="JavaScript" camunda:resultVariable="responsible_group">
+      <bpmn:documentation>Anforderungen
+===========
+Ermittlung über Entscheidungstabelle in DMN der zuständigen Benutzergruppe als Output in Prozessvariable responsible_group basierend auf Input der Prozessvariablen priority und category mit folgenden Regeln:
+- Alle High-Prio-Incidents geht an Benutzergruppe super-senior-cracks
+- Low- und Middle Hardware-Störungen gehen an hardware-team
+- Low- und Middle Betriebssystem-Störungen gehen an os-team
+- Middle Office 365-Störungen gehen an office-2nd-team
+- Low Office 365-Störungen gehen an office-1st-team
+- Low- und Middle übrige Software-Störungen gehen an beissen-die-hunde-team
+
+
+Weitere Hinweise
+=============
+Zugegebenermassen ist hier die Nutzung von DMN etwas gesucht, aber denkbar. In der Realität würde wohl entweder eher der Service Desk-Mitarbeiter den zuständigen 2nd-Level-Support bestimmen, oder über sonstige Regeln (z.B. basierend auf betroffenem Service der Service-Verantwortliche, usw.) oder über Machine Learning würde die Zuordnung vorgenommen.</bpmn:documentation>
+      <bpmn:incoming>NeinSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1s4lt25</bpmn:outgoing>
+      <bpmn:script>var result;
+
+if(priority=="high") {
+  result = "super-senior-cracks";
+} else if(category.startsWith("hw.")) {
+  result = "hardware-team";
+} else {
+  result = "beissen-die-hunde-team";
+}</bpmn:script>
+    </bpmn:scriptTask>
   </bpmn:process>
   <bpmn:message id="Message_0im14jd" name="Message_Incident_From_Event" />
   <bpmn:process id="ServiceDeskProcess" isExecutable="false">
@@ -826,9 +852,6 @@ Statt statisch eine Notification an servicedesk zu senden, würde diese stattdes
       <bpmndi:BPMNShape id="Activity_18fs4wo_di" bpmnElement="StorungKategorisierenPriorisierenUndDiagnostizierenTask">
         <dc:Bounds x="1030" y="1860" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_08a8fwp_di" bpmnElement="Zustandigen2ndLevelSupportBestimmenTask">
-        <dc:Bounds x="1270" y="1625" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_02gx53l_di" bpmnElement="BenutzerUberEskalationInformierenTask">
         <dc:Bounds x="1410" y="1625" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -846,6 +869,9 @@ Statt statisch eine Notification an servicedesk zu senden, würde diese stattdes
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_10utofo_di" bpmnElement="UberAkzeptierteLosungInformierenTask">
         <dc:Bounds x="2180" y="1625" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0hnb8rs_di" bpmnElement="Zustandigen2ndLevelSupportBestimmenTask">
+        <dc:Bounds x="1270" y="1625" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Participant_0gzj01f_di" bpmnElement="ServiceDesk1stLevelParticipant" isHorizontal="true" bioc:stroke="#8e24aa" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#8e24aa">
         <dc:Bounds x="610" y="2050" width="1140" height="380" />
